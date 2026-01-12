@@ -32,70 +32,97 @@ function computeData(regime, hardware, category, baseData) {
 }
 
 /* ================= GEMINI FETCH ================= */
+// async function fetchGeminiData() {
+//   const currentYear = new Date().getFullYear(); // 2026
+//   const pastYears = 7; // last 7 years excluding current year
+
+//   const prompt = `
+// You are a luxury secondary-market pricing engine.
+
+// Generate realistic secondary market prices (USD) for Hermès Birkin bags.
+
+// RULES:
+
+// MODELS:
+// - "Birkin 25", "Birkin 30", "Birkin 35", "Birkin 40"
+
+// HARDWARE CONFIGURATIONS:
+// - "Palladium", "Gold", "Rose Gold", "Brushed Gold"
+
+// SPECIAL EDITIONS:
+// - "Precious Skin", "Collector/LE"
+
+// TIME RANGE:
+// - Past ${pastYears} years yearly data (from ${currentYear - pastYears} to ${
+//     currentYear - 1
+//   })
+// - Current year (${currentYear}) month-wise data
+
+// OUTPUT FORMAT:
+// Return a JSON object:
+
+// {
+//   "<MODEL>": {
+//     "<HARDWARE>": {
+//       "<SPECIAL>": [
+//         { "year": 2019, "price": 18000 },
+//         ...
+//         { "year": 2025, "price": 40000 },
+//         { "year": 2026, "month": "Jan", "price": 40500 },
+//         ...
+//         { "year": 2026, "month": "Dec", "price": 45000 }
+//       ]
+//     }
+//   }
+// }
+
+// Rules:
+// - Only JSON, no extra text.
+// - Years must be numbers, prices numeric.
+// - 2026 month names: "Jan", "Feb", ..., "Dec"
+// - Ensure realistic and distinct prices across models, hardware, specials, years, months.
+// `;
+
+//   const res = await fetch(
+//     `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+//     {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         contents: [{ role: "user", parts: [{ text: prompt }] }],
+//       }),
+//     }
+//   );
+
+//   const json = await res.json();
+//   const raw = json.candidates?.[0]?.content?.parts?.[0]?.text;
+//   return JSON.parse(raw);
+// }
+/* ================= PYTHON FETCH ================= */
 async function fetchGeminiData() {
-  const prompt = `
-You are a luxury resale pricing engine.
+  try {
+    const res = await fetch(
+      "https://crosslisting-backend-aacranbzdyd3ffbd.centralindia-01.azurewebsites.net/api/autofill/birkin-data",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}), // send empty JSON if no payload required
+      }
+    );
 
-Generate realistic historical secondary market prices (USD) for Hermès Birkin bags.
+    const json = await res.json();
 
-MODELS:
-- Birkin 25
-- Birkin 30
-- Birkin 35
-- Birkin 40
-
-HARDWARE:
-- Palladium
-- Gold
-- Rose Gold
-- Brushed Gold
-
-SPECIALS:
-- Precious Skin
-- Collector/LE
-
-TIME RANGE:
-Last 8 years (oldest → newest)
-
-OUTPUT:
-Return ONLY valid JSON in this exact structure:
-
-{
-  "Birkin 25": {
-    "Palladium": {
-      "Precious Skin": [
-        { "year": 2017, "price": 18000 },
-        ...
-      ],
-      "Collector/LE": [...]
-    },
-    "Gold": { ... }
-  },
-  "Birkin 30": { ... },
-  "Birkin 35": { ... },
-  "Birkin 40": { ... }
-}
-
-Rules:
-- No markdown
-- No explanations
-- Numbers only
-`;
-
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-      }),
+    if (!json.success) {
+      throw new Error(json.error || "Failed to fetch data");
     }
-  );
 
-  const json = await res.json();
-  const raw = json.candidates?.[0]?.content?.parts?.[0]?.text;
-  return JSON.parse(raw);
+    return json.data;
+  } catch (err) {
+    console.error("Flask fetch failed:", err);
+    return {};
+  }
 }
 
 /* ================= APP ================= */
