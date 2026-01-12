@@ -11,7 +11,8 @@ import {
 import { FiSearch, FiMenu, FiX } from "react-icons/fi";
 
 /* ================= CONFIG ================= */
-const GEMINI_API_KEY = "AIzaSyDlF5Zq97EayzqxUoMGd_DnNxlCdVMBFwU"; // 🔑 Replace with your key
+
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 const REGIMES = { Expansion: 1.15, Standard: 1, Contraction: 0.85 };
 const HARDWARE_CONFIG = ["Palladium", "Gold", "Rose Gold", "Brushed Gold"];
