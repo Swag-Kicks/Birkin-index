@@ -1,7 +1,5 @@
 import { FiX } from "react-icons/fi";
 import { useState } from "react";
-import "./ConsultAdvisor.css";
-
 const MODELS = ["Birkin 25", "Birkin 30", "Birkin 35", "Birkin 40"];
 const HARDWARE = ["Palladium", "Gold", "Rose Gold", "Brushed Gold"];
 const LEATHERS = ["Classic Leather", "Precious Skin", "Collector / LE"];
