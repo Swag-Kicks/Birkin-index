@@ -1,94 +1,85 @@
-/* Buttons */
-.consult-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #000;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 10px;
-  font-size: 14px;
+/* ConsultAdvisor.css */
+
+/* Modal background */
+.consult-advisor-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+/* Response popup */
+.consult-advisor-response {
+  transition: all 0.3s ease;
+}
+
+/* File input */
+.consult-advisor-file input[type="file"] {
   cursor: pointer;
 }
 
-.liquidate-btn {
+/* File preview */
+.consult-advisor-file p {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: #4b5563; /* Tailwind gray-600 */
+}
+
+/* Grid inputs */
+.consult-advisor-row {
+  display: flex;
+  gap: 0.75rem; /* Tailwind gap-3 */
+}
+
+/* Input & select */
+.consult-advisor-row input,
+.consult-advisor-row select {
+  flex: 1;
+  border: 1px solid #d1d5db; /* Tailwind gray-300 */
+  border-radius: 0.5rem; /* Tailwind rounded-lg */
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem; /* Tailwind text-sm */
+  color: #1f2937; /* Tailwind gray-900 */
+  outline: none;
+  transition: all 0.2s;
+}
+
+.consult-advisor-row input:focus,
+.consult-advisor-row select:focus {
+  border-color: #111827; /* Tailwind gray-900 */
+  box-shadow: 0 0 0 1px #111827;
+}
+
+/* Submit button */
+.consult-advisor-submit {
+  background-color: #111827; /* Tailwind black */
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
   width: 100%;
-  background: #ea580c;
-  color: #fff;
-  padding: 14px;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 14px;
-  margin-top: 12px;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+.consult-advisor-submit:hover {
+  background-color: #000;
 }
 
-.modal-form {
-  background: #fff;
-  width: 360px;
-  padding: 24px;
-  border-radius: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.modal-form h2 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-/* Inputs */
-.modal-form input,
-.modal-form select,
-.modal-form textarea {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-}
-
-.modal-form textarea {
-  resize: none;
-  min-height: 80px;
-}
-
-/* Actions */
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.cancel-btn {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #fff;
-  cursor: pointer;
-}
-
-.submit-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-}
-
-.submit-btn:disabled {
-  opacity: 0.6;
+.consult-advisor-submit:disabled {
+  background-color: #6b7280; /* Tailwind gray-500 */
   cursor: not-allowed;
+}
+
+/* Textarea */
+.consult-advisor-message {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  resize: none;
+  font-size: 0.875rem;
+  color: #1f2937;
+}
+
+.consult-advisor-message:focus {
+  border-color: #111827;
+  box-shadow: 0 0 0 1px #111827;
 }

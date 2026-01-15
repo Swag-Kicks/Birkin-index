@@ -82,16 +82,20 @@ export default function App() {
     setLoading(true);
 
     try {
-      // Get stored data
       const stored = JSON.parse(localStorage.getItem("birkinData") || "{}");
-      const lastUpdated = stored.lastUpdated; // e.g., "2026-01-14"
-      const today = new Date().toISOString().split("T")[0]; // "YYYY-MM-DD"
+      const lastUpdated = stored.lastUpdated;
+      const today = new Date().toISOString().split("T")[0];
 
-      if (lastUpdated === today && stored.data) {
-        // Use cached data if already fetched today
+      const hasValidCachedData =
+        stored.data &&
+        typeof stored.data === "object" &&
+        Object.keys(stored.data).length > 0;
+
+      if (lastUpdated === today && hasValidCachedData) {
+        // ✅ Use cached data
         console.log("✅ Using cached data from localStorage");
 
-        // Mimic a small fetch delay (e.g., 500ms) so loader shows
+        // Small delay so loader is visible
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         setAllModelData(stored.data);
@@ -100,11 +104,11 @@ export default function App() {
             []
         );
       } else {
-        // Fetch new data
+        // 🚀 Fetch fresh data
         console.log("🚀 Fetching new data from API");
+
         const data = await fetchGeminiData();
 
-        // Save in localStorage with lastUpdated date
         localStorage.setItem(
           "birkinData",
           JSON.stringify({ data, lastUpdated: today })
@@ -121,6 +125,7 @@ export default function App() {
 
     setLoading(false);
   };
+
   useEffect(() => {
     handleFetchGemini();
   }, []);
